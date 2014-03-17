@@ -1,0 +1,75 @@
+@function strip-units($number) {
+	@return $number / ($number * 0 + 1);
+}
+
+@mixin nth-child($an: 2n, $sibling: '*', $count: 15) {
+	$index: '';
+	$n: false;
+	$selector: '';
+	$modifier: 0;
+	
+	@if (type-of($an) == list) {
+		$index: nth($an, 1);
+		$modifier: nth($an, 2);
+	}
+	@else {
+		$index: $an;
+	}
+	
+	@if ($index == 'even' or $index == even) {
+		$index: 2n;
+	}
+	
+	@if ($index == 'odd' or $index == odd) {
+		$index: 2n;
+		$modifier: 1;
+	}
+	
+	@if (unit($index) == 'n') {
+		$index: strip-units($index);
+		$n: true;
+	}
+	
+	@if ($modifier < 0) {
+		@if (abs($modifier) > $index){
+			$modifier: -(abs($modifier) % floor($index));
+		}
+		$modifier: $modifier + floor($index);
+	}
+	
+	@if ($index > 0) {	
+		@if ($n == false) {
+			$count: 1;
+		}
+		
+		@if ($index == 1) {
+			$selector: '&:first-child';
+		}
+		
+		@if ($modifier > 1) {
+			@for $j from 0 to $modifier - 1 {
+				$selector: $selector + '+ ' + $sibling;
+			}
+			$selector: $selector + ',';
+		}
+		
+		@for $i from 1 to $count + 1 {
+			@if ($i > 1) {
+				$selector: $selector + ', ';
+			}
+			@for $x from (1 - $modifier) to $index * $i {
+				$selector: $selector + '+ ' + $sibling;
+			}
+		}
+	}
+	
+	@if ($index > 0) {
+		@if ($modifier == 1) {
+			@content;
+		}
+		
+		#{$selector} {
+			@content;
+		}
+	}
+}
