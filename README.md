@@ -1,17 +1,21 @@
-Introduction:
+# nth Child Mixin
 
+```SCSS
 nth-child($an: 2n, $sibling: '*', $count: 15)
+```
  
-$an - the counting method, eg: 2n, 3n, odd - default is 2n
-$an can also be a list, with the 2nd parameter being the modifier, eg: 2 for ($an+2) or -3 for ($an-3)
-$sibling - the sibling element selector, eg: 'li', 'div' - default is '*'
-$count - how many sibling selectors to support, eg: 10, 20 - default is 15
+ - `$an` - the counting method, eg: `2n`, `3n`, odd - default is `2n`
+ - `$an` can also be a list, with the 2nd parameter being the modifier, eg: `2` for `($an+2)` or `-3` for `($an-3)`
+ - `$sibling` - the sibling element selector, eg: `li`, `div` - default is `*`
+ - `$count` - how many sibling selectors to support, eg: `10`, `20` - default is `15`
 
 
-Example:
+## Example usage:
+
+```SCSS
 .selected {
-	background: #000;
-	color: #fff;
+  background: #000;
+  color: #fff;
 }
  
 .even > li:first-child {
@@ -55,3 +59,4 @@ Example:
 		@extend .selected;
 	}
 }
+```
